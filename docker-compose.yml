@@ -11,6 +11,9 @@ services:
             - 80:80
             - 443:443
         restart: always
+        environment:
+            - APP_URL=app.example.com
+            - PHPMYADMIN_URL=phpmyadmin.app.example.com
         networks:
             my_net:
                 ipv4_address: 172.28.0.2
