@@ -4,9 +4,6 @@ services:
     nginx-proxy:
         image: nginx:1.17.8
         volumes:
-            - ./data/certbot/certs:/etc/nginx/certs
-            - ./data/certbot/webroot:/var/www/certbot_webroot
-            - ./data/ssl:/etc/nginx
             - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         ports:
             - 80:80
@@ -14,14 +11,8 @@ services:
         restart: always
         network_mode: bridge
         networks:
-            ipv4_address: 172.17.0.2
-
-    # certbot:
-    #     image: certbot/certbot:latest
-    #     volumes:
-    #         - ./data/certbot/certs:/etc/letsencrypt
-    #         - ./certbot/webroot:/var/www/certbot_webroot
-    #     network_mode: bridge
+            bridge:
+                ipv4_address: 172.17.0.2
 
     mysql:
         image: mysql:5.7.29
@@ -30,9 +21,6 @@ services:
             - ./data/mysql:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=on!yforte$$t #on!yforte$t
-            # - MYSQL_USER=myuser
-            # - MYSQL_PASSWORD=myPa$$w0rd
-            # - MYSQL_DATABASE=lorem_database
         network_mode: bridge
         networks:
             bridge: 
