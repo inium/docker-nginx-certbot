@@ -9,7 +9,6 @@ services:
             - 80:80
             - 443:443
         restart: always
-        network_mode: bridge
         networks:
             bridge:
                 ipv4_address: 172.17.0.2
@@ -21,7 +20,6 @@ services:
             - ./data/mysql:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=on!yforte$$t #on!yforte$t
-        network_mode: bridge
         networks:
             bridge: 
                 ipv4_address: 172.17.0.3
@@ -30,7 +28,6 @@ services:
         image: phpmyadmin/phpmyadmin:latest
         external_links:
             - mysql:db
-        network_mode: bridge
         networks:
             bridge: 
                 ipv4_address: 172.17.0.4
