@@ -6,7 +6,7 @@ services:
         container_name: nginx-proxy
         hostname: nginx-proxy
         volumes:
-            - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./conf/nginx/nginx.conf:/etc/nginx/mysite.conf
         ports:
             - 80:80
             - 443:443
@@ -14,9 +14,30 @@ services:
         environment:
             - APP_URL=app.example.com
             - PHPMYADMIN_URL=phpmyadmin.app.example.com
+        command: /bin/bash -c "envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
         networks:
-            my_net:
+            mynet:
                 ipv4_address: 172.28.0.2
+
+    app:
+        image: php:7.4.2-fpm
+        container_name: app
+        hostname: app
+        working_dir: /var/www
+        command: echo "<?php phpinfo();" > index.php | php -S 0.0.0.0:80
+        networks:
+            mynet:
+                ipv4_address: 172.17.0.5
+
+    app:
+        image: php:7.4.2-fpm
+        container_name: app
+        hostname: app
+        working_dir: /var/www/html
+        command: /bin/bash -c "echo \"<?php phpinfo();\" > index.php | php -S 0.0.0.0:80"
+        networks:
+            docker_net:
+                ipv4_address: 172.28.0.5
 
     mysql:
         image: mysql:5.7.29
@@ -28,7 +49,7 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=on!yforte$$t #on!yforte$t
         networks:
-            my_net: 
+            mynet: 
                 ipv4_address: 172.28.0.3
 
     phpmyadmin:
@@ -38,12 +59,12 @@ services:
         external_links:
             - mysql:db
         networks:
-            my_net: 
+            mynet: 
                 ipv4_address: 172.28.0.4
-                
+
 networks:
-    my_net:
-        name: my_net
+    mynet:
+        name: mynet
         ipam:
             driver: default
             config:
