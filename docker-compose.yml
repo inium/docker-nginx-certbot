@@ -14,7 +14,7 @@ services:
         environment:
             - APP_URL=app.example.com
             - PHPMYADMIN_URL=phpmyadmin.app.example.com
-        command: /bin/bash -c "envsubst < /etc/nginx/mysite.conf > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+        command: /bin/bash -c "envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
         networks:
             mynet:
                 ipv4_address: 172.28.0.2
