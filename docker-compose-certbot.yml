@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+    certbot:
+        image: certbot/certbot:latest
+        volumes:
+            - ./conf/certbot/certs:/etc/letsencrypt
+            - ./conf/certbot/webroot:/var/www/certbot_webroot
+        environment: 
+            - CERTBOT_DOMAIN_APP: app.example.com
+            - CERTBOT_DOMAIN_PHPMYADMIN: phpmyadmin.app.example.com
+            - CERTBOT_EMAIL: test@exmaple.com
+            - CERTBOT_WEBROOT: /var/www/certbot_webroot
+        command: >
+            /bin/bash -c "
+                certbot certonly --webroot \
+                                 --email $CERTBOT_EMAIL \
+                                 --agree-tos \
+                                 --non-interactive \
+                                 -w $CERTBOT_WEBROOT \
+                                 -d $CERTBOT_DOMAIN_APP \
+                                 -d $CERTBOT_DOMAIN_PHPMYADMIN
+            "
+        networks:
+            mynet:
+                ipv4_address: 172.28.0.254
+
+networks:
+    mynet:
+        name: mynet
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.28.0.0/24"
