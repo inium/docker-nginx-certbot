@@ -7,6 +7,8 @@ services:
         hostname: nginx-proxy
         volumes:
             - ./conf/nginx/mysite.conf:/etc/nginx/mysite.conf
+            - ./conf/certbot/certs:/etc/nginx/certs
+            - ./conf/certbot/webroot:/var/www/certbot_webroot
         ports:
             - 80:80
             - 443:443
@@ -14,7 +16,11 @@ services:
         environment:
             - APP_URL=app.example.com
             - PHPMYADMIN_URL=phpmyadmin.app.example.com
-        command: /bin/bash -c "envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"
+        command: >
+            /bin/bash -c "
+                envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
+                && exec nginx -g 'daemon off;'
+            "
         networks:
             mynet:
                 ipv4_address: 172.28.0.2
@@ -24,7 +30,10 @@ services:
         container_name: app
         hostname: app
         working_dir: /var/www/html
-        command: /bin/bash -c "echo \"<?php phpinfo();\" > index.php | php -S 0.0.0.0:80"
+        command: >
+            /bin/bash -c "
+                echo \"<?php phpinfo();\" > index.php | php -S 0.0.0.0:80
+            "
         networks:
             mynet:
                 ipv4_address: 172.28.0.5
