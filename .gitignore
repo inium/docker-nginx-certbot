@@ -1,2 +1,7 @@
 # container volume directories
 data/
+
+# Backup Directories
+backup/
+
+.env
