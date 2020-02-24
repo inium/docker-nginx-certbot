@@ -3,23 +3,24 @@ version: "3.7"
 services:
     certbot:
         image: certbot/certbot:latest
+        container_name: certbot
+        hostname: certbot
         volumes:
             - ./conf/certbot/certs:/etc/letsencrypt
             - ./conf/certbot/webroot:/var/www/certbot_webroot
         environment: 
-            - CERTBOT_DOMAIN_APP: app.example.com
-            - CERTBOT_DOMAIN_PHPMYADMIN: phpmyadmin.app.example.com
-            - CERTBOT_EMAIL: test@exmaple.com
-            - CERTBOT_WEBROOT: /var/www/certbot_webroot
+            - CERTBOT_DOMAIN_APP=${APP_URL}
+            - CERTBOT_DOMAIN_PHPMYADMIN=${PHPMYADMIN_URL}
+            - CERTBOT_EMAIL=${CERTBOT_EMAIL}
+            - CERTBOT_WEBROOT=/var/www/certbot_webroot
         command: >
-            /bin/bash -c "
-                certbot certonly --webroot \
-                                 --email $CERTBOT_EMAIL \
-                                 --agree-tos \
-                                 --non-interactive \
-                                 -w $CERTBOT_WEBROOT \
-                                 -d $CERTBOT_DOMAIN_APP \
-                                 -d $CERTBOT_DOMAIN_PHPMYADMIN
+            "certonly --webroot \
+                     --email $CERTBOT_EMAIL \
+                     --agree-tos \
+                     --non-interactive \
+                     -w $CERTBOT_WEBROOT \
+                     -d $CERTBOT_DOMAIN_APP \
+                     -d $CERTBOT_DOMAIN_PHPMYADMIN
             "
         networks:
             mynet:
