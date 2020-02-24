@@ -14,8 +14,8 @@ services:
             - 443:443
         restart: always
         environment:
-            - APP_URL=app.example.com
-            - PHPMYADMIN_URL=phpmyadmin.app.example.com
+            - APP_URL=${APP_URL}
+            - PHPMYADMIN_URL=${PHPMYADMIN_URL}
         command: >
             /bin/bash -c "
                 envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
@@ -46,7 +46,7 @@ services:
             - ./conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
             - ./data/mysql:/var/lib/mysql
         environment:
-            - MYSQL_ROOT_PASSWORD=on!yforte$$t #on!yforte$t
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         networks:
             mynet: 
                 ipv4_address: 172.28.0.3
