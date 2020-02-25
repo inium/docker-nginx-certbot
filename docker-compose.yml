@@ -19,7 +19,7 @@ services:
             - CERTBOT_WEBROOT=${CERTBOT_WEBROOT}
         command: >
             /bin/bash -c "
-                envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf
+                envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
                 && exec nginx -g 'daemon off;'
             "
         networks:
