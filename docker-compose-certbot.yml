@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-    certbot:
+    certonly:
         image: certbot/certbot:latest
         container_name: certbot
         hostname: certbot
@@ -9,7 +9,7 @@ services:
             - ./certbot/certs:/etc/letsencrypt
             - ./certbot/webroot:/var/www/certbot_webroot
         command: "
-            certonly --webroot \
+            certonly --standalone \
                      --email ${CERTBOT_EMAIL} \
                      --agree-tos \
                      --non-interactive \
@@ -17,6 +17,22 @@ services:
                      -w /var/www/certbot_webroot \
                      -d ${APP_URL}
                      -d ${PHPMYADMIN_URL}
+            "
+        networks:
+            mynet:
+                ipv4_address: 172.28.0.253
+
+    renew:
+        image: certbot/certbot:latest
+        container_name: certbot
+        hostname: certbot
+        volumes:
+            - ./certbot/certs:/etc/letsencrypt
+            - ./certbot/webroot:/var/www/certbot_webroot
+        command: "
+            renew --quiet \
+                  --no-self-upgrade \
+                  --dry-run
             "
         networks:
             mynet:
