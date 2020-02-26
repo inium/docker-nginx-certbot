@@ -8,6 +8,8 @@ services:
         volumes:
             - ./certbot/certs:/etc/letsencrypt
             - ./certbot/webroot:/var/www/certbot_webroot
+        ports: 
+            - 80:80
         command: "
             certonly --standalone \
                      --email ${CERTBOT_EMAIL} \
