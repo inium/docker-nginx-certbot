@@ -20,7 +20,8 @@ services:
             - CERTBOT_CERT_NAME=${CERTBOT_CERT_NAME}
         command: >
             /bin/bash -c "
-                envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
+                envsubst \"`printf '${%s} ' $(bash -c "compgen -A variable")`\"
+                < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
                 && exec nginx -g 'daemon off;'
             "
         networks:
