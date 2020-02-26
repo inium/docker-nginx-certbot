@@ -1,0 +1,61 @@
+# App upstream
+upstream app {
+    server 172.28.0.5:80;
+}
+# Phpmyadmin upstream
+upstream phpmyadmin {
+    server 172.28.0.4:80;
+}
+# App (http)
+server {
+    listen 80;
+    server_name ${APP_URL};
+
+    # Certbot acme-challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot_webroot;
+    }
+
+    # Redirect http to https
+    return 301 https://$host$request_uri;
+}
+# App (https)
+server {
+    listen 443 ssl http2;
+    server_name ${APP_URL};
+
+    ssl_certificate     /etc/nginx/certbot/certs/live/${CERTBOT_CERT_NAME}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certbot/certs/live/${CERTBOT_CERT_NAME}/privkey.pem;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+    location / {
+        allow all;
+        proxy_pass http://app;
+    }
+}
+# phpmyadmin (http)
+server {
+    listen 80;
+    server_name ${PHPMYADMIN_URL};
+    
+    # certbot acme-challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot_webroot;
+    }
+
+    # Redirect http to https
+    return 301 https://$host$request_uri;
+}
+# phpmyadmin (https)
+server {
+    listen 443 ssl http2;
+    server_name ${PHPMYADMIN_URL};
+
+    ssl_certificate     /etc/nginx/certbot/certs/live/${CERTBOT_CERT_NAME}/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certbot/certs/live/${CERTBOT_CERT_NAME}/privkey.pem;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+    location / {
+        proxy_pass http://phpmyadmin;
+    }
+}
