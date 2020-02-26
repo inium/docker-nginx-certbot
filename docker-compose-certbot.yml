@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-    certonly:
+    certbot-certonly:
         image: certbot/certbot:latest
         container_name: certbot
         hostname: certbot
@@ -24,7 +24,7 @@ services:
             mynet:
                 ipv4_address: 172.28.0.253
 
-    renew:
+    certbot-renew:
         image: certbot/certbot:latest
         container_name: certbot
         hostname: certbot
