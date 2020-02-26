@@ -29,7 +29,7 @@ server {
     ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
 
     location / {
-        allow all;
+        proxy_set_header X-Forwarded-Proto https;
         proxy_pass http://app;
     }
 }
@@ -56,6 +56,7 @@ server {
     ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
 
     location / {
+        proxy_set_header X-Forwarded-Proto https;
         proxy_pass http://phpmyadmin;
     }
 }
