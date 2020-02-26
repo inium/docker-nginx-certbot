@@ -9,7 +9,6 @@ services:
             - ./mysite.template:/etc/nginx/conf.d/mysite.template
             - ./certbot/certs:/etc/nginx/certbot/certs
             - ./certbot/webroot:/var/www/certbot_webroot
-            - ./docker/nginx:/etc/nginx
         ports:
             - 80:80
             - 443:443
