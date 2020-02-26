@@ -6,21 +6,17 @@ services:
         container_name: certbot
         hostname: certbot
         volumes:
-            - ./conf/certbot/certs:/etc/letsencrypt
-            - ./conf/certbot/webroot:/var/www/certbot_webroot
-        environment: 
-            - CERTBOT_DOMAIN_APP=${APP_URL}
-            - CERTBOT_DOMAIN_PHPMYADMIN=${PHPMYADMIN_URL}
-            - CERTBOT_EMAIL=${CERTBOT_EMAIL}
-            - CERTBOT_WEBROOT=/var/www/certbot_webroot
+            - ./certbot/certs:/etc/letsencrypt
+            - ./certbot/webroot:/var/www/certbot_webroot
         command: >
             "certonly --webroot \
-                     --email $CERTBOT_EMAIL \
-                     --agree-tos \
-                     --non-interactive \
-                     -w $CERTBOT_WEBROOT \
-                     -d $CERTBOT_DOMAIN_APP \
-                     -d $CERTBOT_DOMAIN_PHPMYADMIN
+                      --email ${CERTBOT_EMAIL} \
+                      --agree-tos \
+                      --non-interactive \
+                      --cert-name ${CERTBOT_CERT_NAME}
+                      -w /var/www/certbot_webroot \
+                      -d ${APP_URL}
+                      -d ${PHPMYADMIN_URL}
             "
         networks:
             mynet:

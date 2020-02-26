@@ -6,8 +6,8 @@ services:
         container_name: nginx-proxy
         hostname: nginx-proxy
         volumes:
-            - ./conf/nginx/mysite.conf:/etc/nginx/mysite.conf
-            - ./certbot/certs:/etc/nginx/certs
+            - ./docker/nginx/mysite.conf:/etc/nginx/mysite.conf
+            - ./certbot/certs:/etc/nginx/certbot/certs
             - ./certbot/webroot:/var/www/certbot_webroot
         ports:
             - 80:80
@@ -16,7 +16,7 @@ services:
         environment:
             - APP_URL=${APP_URL}
             - PHPMYADMIN_URL=${PHPMYADMIN_URL}
-            - CERTBOT_WEBROOT=${CERTBOT_WEBROOT}
+            - CERTBOT_WEBROOT=/var/www/certbot_webroot
         command: >
             /bin/bash -c "
                 envsubst < /etc/nginx/mysite.conf > /etc/nginx/nginx.conf \
@@ -27,13 +27,21 @@ services:
                 ipv4_address: 172.28.0.2
 
     app:
-        image: php:7.4.3-fpm
+        image: php:7.4.3
         container_name: app
         hostname: app
         working_dir: /var/www/html
+        environment: 
+            - MYSQL_HOST=172.28.0.3
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes: 
+            - ./app:/var/www/html
+        expose: 
+            - 80
         command: >
             /bin/bash -c "
-                echo \"<?php phpinfo();\" > index.php | php -S 0.0.0.0:80
+                docker-php-ext-install pdo pdo_mysql && php -S 0.0.0.0:80
             "
         networks:
             mynet:
@@ -44,7 +52,7 @@ services:
         container_name: mysql
         hostname: mysql
         volumes: 
-            - ./conf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
             - ./data/mysql:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
