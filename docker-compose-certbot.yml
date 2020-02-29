@@ -9,9 +9,10 @@ services:
             - 80:80
         command: "
             certonly --standalone \
-                     --email ${CERTBOT_CERT_EMAIL} \
                      --agree-tos \
                      --non-interactive \
+                     --email ${CERTBOT_CERT_EMAIL} \
+                     --cert-name ${CERTBOT_CERT_NAME} \
                      -d ${APP_URL} \
                      -d ${PHPMYADMIN_URL}
             "
