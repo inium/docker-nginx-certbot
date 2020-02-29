@@ -1,22 +1,17 @@
 version: "3.7"
 
 services:
-    certbot-certonly:
+    certbot-certonly-app:
         image: certbot/certbot:latest
-        container_name: certbot
-        hostname: certbot
         volumes:
-            - ./certbot/certs:/etc/letsencrypt
-            - ./certbot/webroot:/var/www/certbot_webroot
+            - certbot:/etc/letsencrypt
         ports:
             - 80:80
         command: "
             certonly --standalone \
-                     --email ${CERTBOT_EMAIL} \
+                     --email ${CERTBOT_CERT_EMAIL} \
                      --agree-tos \
                      --non-interactive \
-                     --cert-name ${CERTBOT_CERT_NAME}
-                     -w /var/www/certbot_webroot \
                      -d ${APP_URL} \
                      -d ${PHPMYADMIN_URL}
             "
@@ -29,8 +24,7 @@ services:
         container_name: certbot
         hostname: certbot
         volumes:
-            - ./certbot/certs:/etc/letsencrypt
-            - ./certbot/webroot:/var/www/certbot_webroot
+            - certbot:/etc/letsencrypt
         command: "
             renew --quiet \
                   --no-self-upgrade \
@@ -47,3 +41,7 @@ networks:
             driver: default
             config:
                 - subnet: "172.28.0.0/24"
+
+volumes: 
+    certbot:
+        name: certbot
