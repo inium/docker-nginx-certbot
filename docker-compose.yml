@@ -7,7 +7,7 @@ services:
         hostname: nginx-proxy
         volumes:
             - ./mysite.template:/etc/nginx/mysite.template
-            - certbot:/etc/nginx/certbot/certs
+            - certbot:/etc/letsencrypt
             - webroot:/var/www/certbot_webroot
         ports:
             - 80:80
