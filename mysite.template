@@ -10,11 +10,11 @@ http {
 
     # App upstream
     upstream app {
-        server 172.28.0.5:80;
+        server app:80;
     }
     # Phpmyadmin upstream
     upstream phpmyadmin {
-        server 172.28.0.4:80;
+        server phpmyadmin:80;
     }
 
     # App (http)
