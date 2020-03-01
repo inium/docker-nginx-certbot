@@ -17,6 +17,13 @@ add_header X-XSS-Protection "1; mode=block";
 # HSTS
 add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
 
+# Prevent Clickjacking (allow iframe sameorigin only)
+add_header X-Frame-Options "SAMEORIGIN";
+
+# Prevent MIME type sniffing
+add_header X-Content-Type-Options nosniff;
+
+
 
 # ------------------------------------------------------------------------------
 # App (http)
