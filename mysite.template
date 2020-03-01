@@ -7,9 +7,10 @@ server {
     location /.well-known/acme-challenge/ {
         root /var/www/certbot_webroot;
     }
-
     # Redirect http to https
-    #return 301 https://$host$request_uri;
+    #location / {
+    #    rewrite ^ https://$server_name$request_uri;
+    #}
 }
 # App (https)
 #server {
@@ -38,9 +39,10 @@ server {
     location /.well-known/acme-challenge/ {
         root /var/www/certbot_webroot;
     }
-
     # Redirect http to https
-    #return 301 https://$host$request_uri;
+    #location / {
+    #    rewrite ^ https://$server_name$request_uri;
+    #}
 }
 # PHPMYADMIN (https)
 #server {
