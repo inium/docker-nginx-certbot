@@ -6,7 +6,7 @@ services:
         container_name: nginx-proxy
         hostname: nginx-proxy
         volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:rw
             - ./nginx/conf.d:/etc/nginx/conf.d
             - certbot:/etc/letsencrypt
             - webroot:/var/www/certbot_webroot
@@ -48,7 +48,7 @@ services:
         container_name: mysql
         hostname: mysql
         volumes: 
-            - ./my.cnf:/etc/mysql/conf.d/my.cnf:ro
+            - ./mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf:ro
             - mysql:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
