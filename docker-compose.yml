@@ -63,7 +63,7 @@ services:
         depends_on:
             - mysql
         environment:
-            - PMA_HOST: mysql
+            - PMA_HOST=mysql
         networks:
             mynet: 
                 ipv4_address: 172.28.0.4
