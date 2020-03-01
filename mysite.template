@@ -1,3 +1,10 @@
+# Set default server
+# Allow sites enabled only
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
+}
 # App (http)
 server {
     listen 80;
@@ -10,6 +17,7 @@ server {
     # Redirect http to https
     #location / {
     #    rewrite ^ https://$server_name$request_uri;
+    #    return 301 https://$host$request_uri;
     #}
 }
 # App (https)
@@ -42,6 +50,7 @@ server {
     # Redirect http to https
     #location / {
     #    rewrite ^ https://$server_name$request_uri;
+    #    return 301 https://$host$request_uri;
     #}
 }
 # PHPMYADMIN (https)
