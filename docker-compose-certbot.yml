@@ -6,8 +6,6 @@ services:
         volumes:
             - certbot:/etc/letsencrypt
             - webroot:/var/www/certbot_webroot
-        ports:
-            - 80:80
         command: "
             certonly --webroot \
                      --agree-tos \
