@@ -1,12 +1,3 @@
-# App upstream
-#upstream app {
-#    server app:80;
-#}
-# Phpmyadmin upstream
-#upstream phpmyadmin {
-#    server phpmyadmin:80;
-#}
-
 # App (http)
 server {
     listen 80;
@@ -35,5 +26,36 @@ server {
 #    location / {
 #        proxy_set_header X-Forwarded-Proto $scheme;
 #        proxy_pass http://app;
+#    }
+#}
+
+# phpmyadmin (http)
+server {
+    listen 80;
+    server_name ${PHPMYADMIN_URL};
+
+    # Certbot acme-challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot_webroot;
+    }
+
+    # Redirect http to https
+    #return 301 https://$host$request_uri;
+}
+# PHPMYADMIN (https)
+#server {
+#    listen 443 ssl http2;
+#    server_name ${PHPMYADMIN_URL};
+
+#    ssl_protocols TLSv1.2 TLSv1.3;
+#    ssl_prefer_server_ciphers on;
+#    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+
+#    ssl_certificate /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/privkey.pem;
+
+#    location / {
+#        proxy_set_header X-Forwarded-Proto $scheme;
+#        proxy_pass http://phpmyadmin;
 #    }
 #}
