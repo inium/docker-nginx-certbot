@@ -49,3 +49,5 @@ networks:
 volumes: 
     certbot:
         name: certbot
+    webroot:
+        name: webroot
