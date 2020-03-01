@@ -19,7 +19,7 @@ services:
             - CERTBOT_CERT_NAME=${CERTBOT_CERT_NAME}
         command: >
             /bin/bash -c "
-                envsubst "`env | awk -F = '{printf \" $$%s\", $$1}'`\" < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/mysite.conf \
+                envsubst \"`env | awk -F = '{printf \" $$%s\", $$1}'`\" < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/mysite.conf \
                 && exec nginx -g 'daemon off;'
             "
         networks:
