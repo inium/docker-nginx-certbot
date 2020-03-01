@@ -52,6 +52,9 @@ server {
 #    ssl_protocols TLSv1.2 TLSv1.3;
 #    ssl_prefer_server_ciphers on;
 #    ssl_ciphers HIGH:!aNULL:!MD5;
+#    ssl_session_cache shared:SSL:10m;
+#    ssl_session_timeout 1d;
+#    ssl_session_tickets off;
 
 #    ssl_certificate /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/fullchain.pem;
 #    ssl_certificate_key /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/privkey.pem;
@@ -95,6 +98,9 @@ server {
 #    ssl_protocols TLSv1.2 TLSv1.3;
 #    ssl_prefer_server_ciphers on;
 #    ssl_ciphers HIGH:!aNULL:!MD5;
+#    ssl_session_cache shared:SSL:10m;
+#    ssl_session_timeout 1d;
+#    ssl_session_tickets off;
 
 #    ssl_certificate /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/fullchain.pem;
 #    ssl_certificate_key /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/privkey.pem;
