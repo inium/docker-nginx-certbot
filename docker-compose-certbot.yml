@@ -12,7 +12,7 @@ services:
                      --non-interactive \
                      --email ${CERTBOT_CERT_EMAIL} \
                      --cert-name ${CERTBOT_CERT_NAME} \
-                     -w /var/www/certbot_webroot
+                     -w /var/www/certbot_webroot \
                      -d ${APP_URL} \
                      -d ${PHPMYADMIN_URL}
             "
