@@ -1,0 +1,29 @@
+### App (http)
+server {
+    listen 80;
+    server_name ${APP_URL};
+
+    # Certbot acme-challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot_webroot;
+    }
+    # Redirect http to https
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+### phpmyadmin (http)
+server {
+    listen 80;
+    server_name ${PHPMYADMIN_URL};
+
+    # Certbot acme-challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot_webroot;
+    }
+    # Redirect http to https
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
