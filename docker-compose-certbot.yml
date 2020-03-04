@@ -29,8 +29,7 @@ services:
             - webroot:/var/www/certbot_webroot
         command: "
             renew --quiet \
-                  --no-self-upgrade \
-                  --dry-run
+                  --no-self-upgrade
             "
         networks:
             mynet:
