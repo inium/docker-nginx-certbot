@@ -1,6 +1,20 @@
 version: "3.7"
 
 services:
+    certbot-certificates:
+        image: certbot/certbot:latest
+        container_name: certbot
+        hostname: certbot
+        volumes:
+            - certbot:/etc/letsencrypt
+            - webroot:/var/www/certbot_webroot
+        command: "
+            certificates
+            "
+        networks:
+            mynet:
+                ipv4_address: 172.28.0.254
+
     certbot-certonly:
         image: certbot/certbot:latest
         volumes:
