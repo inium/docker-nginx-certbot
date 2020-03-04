@@ -5,3 +5,6 @@ data/
 
 # NginX docker default.conf
 conf.d/nginx/default.conf
+
+# dhparam.pem
+conf.d/nginx/dhparam.pem
