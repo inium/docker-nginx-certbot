@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 1. Get dhparam.
-sudo openssl dhparam -out ./conf.d/nginx/https/dhparam.pem 2048
-# sudo curl https://ssl-config.mozilla.org/ffdhe2048.txt | sudo tee -a ./conf.d/nginx/https/dhparam.pem
+sudo openssl dhparam -out ./conf.d/nginx/dhparam.pem 2048
+# sudo curl https://ssl-config.mozilla.org/ffdhe2048.txt | sudo tee -a ./conf.d/nginx/dhparam.pem
 
 # 2. Run server.
 sudo docker-compose up -d
