@@ -1,7 +1,7 @@
 # container volume directories
 data/
 
-# Backup Directories
-backup/
-
 .env
+
+# NginX docker default.conf
+conf.d/nginx/default.conf
