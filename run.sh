@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 1. Get dhparam.
-sudo curl https://ssl-config.mozilla.org/ffdhe2048.txt > /path/to/dhparam.pem
+sudo curl https://ssl-config.mozilla.org/ffdhe2048.txt > ./conf.d/nginx/dhparam.pem
 # openssl dhparam -out ./nginx/dhparam.pem 2048
 
 # 2. Run server.
