@@ -19,7 +19,7 @@ server {
     ssl_session_tickets off;
     ssl_stapling on;
     ssl_stapling_verify on;
-    #ssl_dhparam /etc/nginx/conf.d/dhparam.pem;
+    ssl_dhparam /etc/nginx/conf.d/https/dhparam.pem;
 
     ssl_certificate /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/privkey.pem;
@@ -49,7 +49,7 @@ server {
     ssl_session_tickets off;
     ssl_stapling on;
     ssl_stapling_verify on;
-    # ssl_dhparam /etc/nginx/conf.d/dhparam.pem;
+    ssl_dhparam /etc/nginx/conf.d/https/dhparam.pem;
 
     ssl_certificate /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${CERTBOT_CERT_NAME}/privkey.pem;
