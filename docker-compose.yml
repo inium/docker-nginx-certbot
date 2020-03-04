@@ -6,7 +6,7 @@ services:
         container_name: nginx-proxy
         hostname: nginx-proxy
         volumes:
-            - ./mysite.template:/etc/nginx/conf.d
+            - ./nginx:/etc/nginx/conf.d
             - certbot:/etc/letsencrypt
             - webroot:/var/www/certbot_webroot
         ports:
