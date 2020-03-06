@@ -13,7 +13,7 @@ services:
             "
         networks:
             mynet:
-                ipv4_address: 172.28.0.254
+                ipv4_address: 172.28.0.252
 
     certbot-certonly:
         image: certbot/certbot:latest
