@@ -135,7 +135,7 @@ Let's Encrypt 인증서를 미리 발급받았다면, `run.sh`를 실행하지 �
 
 docker-compose.yml에 정의된 app은 docker 공식 이미지인 php:7.4.3을 이용합니다. 본 이미지는 데이터베이스 연결을 위한 PDO 가 설치되어 있지 않기 때문에 docker-compose.yml의 command 항목에 PDO를 설치하여 사용합니다.
 
-_cf. app 컨테이너는 /app/index.php를 실행하며 해당 파일은 pdo connection, phpinfo() 만을 출력합니다._
+_cf. app 컨테이너는 /app/index.php를 실행하며 해당 파일은 pdo connection 결과, phpinfo() 만을 출력합니다._
 
 ### 인증서 확인
 
