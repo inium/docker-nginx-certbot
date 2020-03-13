@@ -21,9 +21,9 @@ Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입
 - `/conf.d/nginx`: nginx  환경설정 파일 저장
 - `/docs`: 본 프로젝트에서 사용한 리소스 정보 등 저장
 
-## Docker Containers
+## Docker Images
 
-본 프로젝트에 사용한 Docker Container 정보는 아래와 같습니다.
+본 프로젝트에 사용한 Docker Image 정보는 아래와 같습니다.
 
 - Reverse Proxy ([nginx:1.17.8](https://hub.docker.com/_/nginx))
 - App ([php:7.4.3](https://hub.docker.com/_/php))
