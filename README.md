@@ -5,12 +5,12 @@
 Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입니다.
 본 프로젝트는 Docker Compose를 이용해 아래 2가지 항목으로 구성되었습니다.
 
-1. Docker를 이용한 Reverse Proxy(NginX), App (PHP), MySQL, phpmyadmin 설정
+1. Docker를 이용한 Reverse Proxy(NginX), App (Node.js), MySQL, phpmyadmin 설정
 2. Docker Certbot를 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정
 
 ## 개요
 
-본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 App (PHP), 데이터베이스 (MySQL), 데이터베이스 관리도구(phpmyadmin)를 구성하도록 하였습니다. 또한 Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
+본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 App (Node.js), 데이터베이스 (MySQL), 데이터베이스 관리도구(phpmyadmin)를 구성하도록 하였습니다. 또한 Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
 
 이와 관련된 설정은 쉘 스크립트와 Docker Compose를 이용해 구현되었습니다.
 
@@ -26,7 +26,7 @@ Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입
 본 프로젝트에 사용한 Docker Image 정보는 아래와 같습니다.
 
 - Reverse Proxy ([nginx:1.17.8](https://hub.docker.com/_/nginx))
-- App ([php:7.4.3](https://hub.docker.com/_/php))
+- App ([node:13.12.0](https://hub.docker.com/_/node))
 - 데이터베이스 ([mysql:5.7.29](https://hub.docker.com/_/mysql))
 - 데이터베이스 관리도구 ([phpmyadmin:latest](https://hub.docker.com/r/phpmyadmin/phpmyadmin))
 - Let's Encrypt 인증서 발급, 갱신 ([certbot/certbot:latest](https://hub.docker.com/r/certbot/certbot))
@@ -149,9 +149,9 @@ Let's Encrypt 인증서를 미리 발급받았다면, `run.sh`를 실행하지 �
 
 ### App
 
-docker-compose.yml에 정의된 app은 docker 공식 이미지인 php:7.4.3을 이용합니다. 본 이미지는 데이터베이스 연결을 위한 PDO 가 설치되어 있지 않기 때문에 docker-compose.yml의 command 항목에 PDO를 설치하여 사용합니다.
+docker-compose.yml에 정의된 app은 docker 공식 이미지인 node:13.12.0을 이용합니다. 본 이미지는 데이터베이스 연결을 위한 PDO 가 설치되어 있지 않기 때문에 docker-compose.yml의 command 항목에 PDO를 설치하여 사용합니다.
 
-_cf. app 컨테이너는 /app/index.php를 실행하며 해당 파일은 pdo connection 결과, phpinfo() 만을 출력합니다._
+_cf. app 컨테이너는 /app/index.js를 실행하며 해당 파일은 database connection, web 서버 동작 텍스트 출력합니다._
 
 ### 인증서 확인
 
