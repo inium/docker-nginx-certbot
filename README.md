@@ -91,6 +91,14 @@ sudo chmod +x certbot-certificates.sh
 ./run.sh
 ```
 
+### 5. 종료
+
+`docker compose down` 명령어를 이용해 Container 전체를 종료합니다.
+
+```bash
+sudo docker-compose down
+```
+
 ## Let's Encrypt 인증서 자동갱신
 
 `certbot-renew.sh`는 Let's Encrypt 인증서의 자동 갱신을 수행합니다. `crontab` 을 이용해 자동갱신 정보를 입력합니다. 예시는 아래와 같습니다.
