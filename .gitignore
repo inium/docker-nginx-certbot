@@ -4,11 +4,13 @@ data/
 # dotenv
 .env
 
-# NginX docker default.conf
+# NginX docker default.template, default.conf
 conf.d/nginx/default.conf
+conf.d/nginx/default.template
 
 # dhparam.pem
 conf.d/nginx/dhparam.pem
 
-# node_modules
+# app
 app/node_modules
+app/package-lock.json
