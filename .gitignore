@@ -1,6 +1,7 @@
 # container volume directories
 data/
 
+# dotenv
 .env
 
 # NginX docker default.conf
@@ -8,3 +9,6 @@ conf.d/nginx/default.conf
 
 # dhparam.pem
 conf.d/nginx/dhparam.pem
+
+# node_modules
+app/node_modules
