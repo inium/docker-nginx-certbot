@@ -93,10 +93,18 @@ sudo chmod +x certbot-certificates.sh
 
 ### 5. 종료
 
-`docker compose down` 명령어를 이용해 Container 전체를 종료합니다.
+`docker-compose down` 명령어를 이용해 Container 전체를 종료합니다.
 
 ```bash
 sudo docker-compose down
+```
+
+### 6. 재실행
+
+`docker-compose up` 명령어를 입력해 종료 후 재실행 합니다.
+
+```bash
+sudo docker-compose up -d
 ```
 
 ## Let's Encrypt 인증서 자동갱신
