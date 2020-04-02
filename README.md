@@ -3,14 +3,14 @@
 ![Brief](/docs/brief.png)
 
 Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입니다.
-본 프로젝트는 Docker Compose를 이용해 아래 2가지 항목으로 구성되었습니다.
+본 프로젝트는 Docker Compose를 이용해 설정하였고 아래 2가지 항목으로 구성되었습니다.
 
 1. Docker를 이용한 Reverse Proxy(NginX), App (Node.js), MySQL, phpmyadmin 설정
 2. Docker Certbot를 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정
 
 ## 개요
 
-본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 App (Node.js), 데이터베이스 (MySQL), 데이터베이스 관리도구(phpmyadmin)를 구성하도록 하였습니다. 또한 Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
+본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 App (Node.js), DBMS (MySQL), 데이터베이스 관리도구(phpmyadmin)를 구성하도록 하였습니다. 또한 Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
 
 이와 관련된 설정은 쉘 스크립트와 Docker Compose를 이용해 구현되었습니다.
 
