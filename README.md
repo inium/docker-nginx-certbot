@@ -10,7 +10,7 @@ Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입
 
 ## 개요
 
-본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 Node.js App, MySQL, phpmyadmin을 구성하도록 하였습니다. 또한 Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
+본 프로젝트는 Docker Nginx를 이용해 Reverse Proxy를 구성한 후 이와 통신하는 Node.js App, MySQL, phpmyadmin을 구성하도록 하였습니다. 또한 Docker Certbot을 이용한 Let's Encrypt 인증서 확인, 발급 및 갱신 설정을 할 수 있도록 하였습니다.
 
 이와 관련된 설정은 쉘 스크립트와 Docker Compose를 이용해 구현되었습니다.
 
@@ -29,7 +29,14 @@ Docker 기반의 NginX Reverse Proxy를 이용한 서버 설정 프로젝트 입
 - App ([node:13.12.0](https://hub.docker.com/_/node))
 - DBMS ([mysql:5.7.29](https://hub.docker.com/_/mysql))
 - MySQL 관리도구 ([phpmyadmin:latest](https://hub.docker.com/r/phpmyadmin/phpmyadmin))
-- Let's Encrypt 인증서 발급, 갱신 ([certbot/certbot:latest](https://hub.docker.com/r/certbot/certbot))
+- Let's Encrypt 인증서 발급, 갱신, 확인 ([certbot/certbot:latest](https://hub.docker.com/r/certbot/certbot))
+
+## Docker Compose 파일
+
+본 프로젝트는 2개의 docker compose 파일로 구성되어 있습니다.
+
+- docker-compose.yml: .env 파일을 읽어들인 후 Nginx Reverse Proxy, App, MySQL, phpmyadmin 실행
+- docker-compose-certbot.yml: .env 파일을 읽어들인 후 certbot 을 이용한 Let's Encrypt 인증서 발급, 갱신, 확인 실행
 
 ## 사용방법
 
@@ -62,8 +69,8 @@ CERTBOT_CERT_EMAIL=${YOUR_CERTBOT_CERT_EMAIL}
 CERTBOT_CERT_NAME=mycert
 ```
 
-- APP_URL, PHPMYADMIN_URL: app, phpmyadmin 접속을 위한 URL 입력
-- MYSQL_ROOT_PASSWORD: mysql의 root 사용자 비밀번호 입력
+- APP_URL, PHPMYADMIN_URL: app, phpmyadmin 접속을 위한 URL
+- MYSQL_ROOT_PASSWORD: mysql의 root 사용자 비밀번호
 - CERTBOT_CERT_EMAIL: Let's Encrypt 인증서 발급 시 사용할 이메일 주소
 - CERTBOT_CERT_NAME: APP_URL, PHPMYADMIN_URL 발급 시 사용할 certification name 으로 certbot 옵션 중 `--cert-name`와 동일. default 로 mycert 라는 이름 사용
 
@@ -92,7 +99,7 @@ sudo chmod +x certbot-certificates.sh
 
 ### 4. 실행
 
-.env 설정을 완료한 후 `run.sh` 를 실행합니다.
+`docker-compose.yml` 에 정의된 서버들을 실행합니다. .env 파일을 이용해 서버를 실행하며 Let's Encrypt 인증서 발급이 동시에 진행됩니다.
 
 ```bash
 ./run.sh
@@ -100,7 +107,7 @@ sudo chmod +x certbot-certificates.sh
 
 ### 5. 종료
 
-`docker-compose down` 명령어를 이용해 Container 전체를 종료합니다.
+실행중인 Container 전체를 종료합니다.
 
 ```bash
 sudo docker-compose down
@@ -108,7 +115,9 @@ sudo docker-compose down
 
 ### 6. 재실행
 
-종료 (`docker-compose down`) 후 `restart.sh`를 이용해 다시 실행 할 때 사용합니다. 재실행은 Let's Encrypt 인증서 정보를 포함한 https 환경설정을 포함한 서버들(Reverse Proxy, App, MySQL, phpmyadin)을 실행합니다. 즉 `run.sh` 명령어를 실행한 서버를 종료하였을 경우 사용해야 합니다.
+실행했던 모든 Container를 종료한 후 다시 실행 합니다.
+
+재실행은 https 환경설정을 포함해 `docker-compose.yml` 에 정의된 서버들을 실행합니다. 즉 `run.sh` 명령어로 실행한 서버를 종료하였을 경우에 사용 합니다.
 
 ```bash
 ./restart.sh
@@ -127,33 +136,29 @@ ex) 한국시간 매주 일요일 02:30에 실행 but 서버시간이 UTC로 설
 
 _cf. kst to ustc converter: <https://www.worldtimebuddy.com/kst-to-utc-converter>_
 
-## Docker Compose 파일
-
-본 프로젝트는 2개의 docker compose 파일로 구성되어 있습니다.
-
-- docker-compose.yml: .env 파일을 읽어들인 후 Nginx Reverse Proxy, App, MySQL, phpmyadmin 실행
-- docker-compose-certbot.yml: .env 파일을 읽어들인 후 certbot 을 이용한 Let's Encrypt 인증서 발급, 갱신, 확인 실행
 
 ## 기타
 
 ### Reverse Proxy
 
-본 프로젝트에서는 NginX의 Reverse Proxy 를 이용합니다. 설정 파일은 `/conf.d/nginx` 디렉터리에 정의되어 있으며 실행 과정은 아래와 같습니다. 이 과정은 `run.sh` 파일에 정의하였습니다.
+본 프로젝트에서는 NginX의 Reverse Proxy 를 이용합니다. 설정 파일은 `/conf.d/nginx` 디렉터리에 정의되어 있으며 실행 과정은 아래와 같습니다. 이 과정은 `run.sh` 파일에 정의되어 있습니다.
 
 1. 최초 실행 시 Let's Encrypt 인증서 발급을 위한 http 서버 실행
-    - `/conf.d/nginx/http.template` 내용을 `/conf.d/nginx/default.template`로 생성. 해당 파일은 Let's Encrypt의 ACME Challenge 대응, http to https redirect 만 구성.
-    - 실행 시 Reverse Proxy Container는 내부에서 앞서 생성된 파일 내부의 환경변수를 `envsubst` 명령어를 이용해 `.env` 에 정의된 값으로 치환한 후 `default.conf` 라는 파일로 생성하여 사용.
-    - Let's Encrypt 인증서 발급을 하는 `certbot`은 webroot 모드로 동작하기 때문에 서버가 80 Port 로 동작하고 있어야 함.
+    1. `/conf.d/nginx/http.template` 내용을 `/conf.d/nginx/default.template`로 생성.
+        - 해당 파일은 Let's Encrypt의 ACME Challenge 대응, http to https redirect 만 구성.
+    2. 실행 시 Reverse Proxy Container 내부에서는 앞서 생성된 파일 내부의 환경변수를 `envsubst` 명령어를 이용해 Container에 등록된 환경변수 값으로 치환한 후 `default.conf` 라는 파일로 생성하여 사용.
+        - `envsubst` 명령어는 `docker-compose.yml` 파일에 정의되어 있는 환경변수값을 참조하며 이 값은 .env로부터 정의.
+        - Let's Encrypt 인증서 발급을 담당하는 `certbot`은 webroot 모드로 동작하기 때문에 서버가 80 Port 로 동작하고 있어야 함.
 
 2. Let's Encrypt 인증서 발급
 
 3. 인증서 발급 완료 후 https 설정을 추가하여 서버 재실행
-    - `/conf.d/nginx/http.template`, `/conf.d/nginx/https.template` 두 파일의 내용을 순서대로 붙여(Append) `/conf.d/nginx/default.template` 로 생성 (기존파일은 Overwrite 됨).
-    - Reverse Proxy Container 재실행하면 내부에서 앞서 생성된 파일 내부에 정의된 환경변수를 `envsubst` 명령어를 이용해 `.env` 에 정의된 값으로 치환한 후 `default.conf` 라는 파일로 생성 (기존파일은 Overwrite 됨) 하여 사용.
+    1. `/conf.d/nginx/http.template`, `/conf.d/nginx/https.template` 두 파일의 내용을 순서대로 붙여(Append) `/conf.d/nginx/default.template` 로 생성 (기존파일은 Overwrite 됨).
+    2. 재실행하면 1.2 의 과정 반복 (`default.conf`는 Overwrite 됨).
 
 ### 인증서 확인
 
-현재 발급되어 있는 인증서 정보를 확인하기 위해 아래와 같이 인증서 정보 보기 스크립트를 실행합니다.
+현재 발급되어 있는 인증서 정보를 확인할 수 있습니다.
 
 ```bash
 ./certbot-certificates.sh
@@ -165,7 +170,9 @@ _cf. kst to ustc converter: <https://www.worldtimebuddy.com/kst-to-utc-converter
 
 ### Networks
 
-본 프로젝트는 Container의 이름으로 네트워크 통신을 하기 위해 bridge 형식으로 별도 정의한 (mynet) Docker Network를 이용합니다. 해당 설정은 docker-compose.yml, docker-compose-certbot.yml 두 환경설정 파일에 공통으로 사용합니다.
+본 프로젝트는 Container의 이름으로 네트워크 통신을 하기 위해 bridge 형식으로 mynet 이라는 이름으로 정의한 `Docker Network`를 이용합니다.
+
+해당 설정은 docker-compose.yml, docker-compose-certbot.yml 두 환경설정 파일에 공통으로 사용합니다.
 
 ## License
 
