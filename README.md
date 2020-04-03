@@ -147,14 +147,14 @@ _cf. kst to ustc converter: <https://www.worldtimebuddy.com/kst-to-utc-converter
     1. `/conf.d/nginx/http.template` 내용을 `/conf.d/nginx/default.template`로 생성.
         - 해당 파일은 Let's Encrypt의 ACME Challenge 대응, http to https redirect 만 구성.
     2. 실행 시 Reverse Proxy Container 내부에서는 앞서 생성된 파일 내부의 환경변수를 `envsubst` 명령어를 이용해 Container에 등록된 환경변수 값으로 치환한 후 `default.conf` 라는 파일로 생성하여 사용.
-        - `envsubst` 명령어는 Container의 환경변수값 참조. 해당 값은 `docker-compose.yml` 로부터 정의되며 이 값은 .env로부터 정의.
+        - `envsubst` 명령어는 Container의 환경변수값 참조. 해당 값은 `docker-compose.yml` 로부터 정의. 이 값은 .env로부터 정의.
         - Let's Encrypt 인증서 발급을 담당하는 `certbot`은 webroot 모드로 동작하기 때문에 서버가 80 Port 로 동작하고 있어야 함.
 
 2. Let's Encrypt 인증서 발급
 
 3. 인증서 발급 완료 후 https 설정을 추가하여 서버 재실행
     1. `/conf.d/nginx/http.template`, `/conf.d/nginx/https.template` 두 파일의 내용을 순서대로 붙여(Append) `/conf.d/nginx/default.template` 로 생성 (기존파일은 Overwrite 됨).
-    2. 재실행하면 1.2 의 과정 반복 (`default.conf`는 Overwrite 됨).
+    2. 재실행하면 1.2 의 과정 반복 (기존 `default.conf`는 Overwrite 됨).
 
 ### 인증서 확인
 
